@@ -1,10 +1,11 @@
+import 'package:document_review/app/ui/add_document.dart';
 import 'package:flutter/material.dart';
 
-import 'app/ui/login.dart';
-
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: LoginScreen(),
-  ));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: AddDocumentScreen(),
+    ),
+  );
 }
