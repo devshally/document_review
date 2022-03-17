@@ -24,7 +24,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
     var dropdownValue = 'Category...';
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.brown.shade300,
+        backgroundColor: Colors.blueGrey.shade700,
         title: const Text(
           'ADD DOCUMENT',
         ),
