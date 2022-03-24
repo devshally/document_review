@@ -1,11 +1,16 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_int_literals
+// ignore_for_file: sort_constructors_first, prefer_int_literals
 
 import 'package:document_review/app/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+///An enum to decide whether a document is passed or the user should ammend it.
+// ignore: public_member_api_docs
 enum Review { passed, ammend }
 
+///[ReviewDocument] screen allows a user to review a document.
 class ReviewDocument extends StatefulWidget {
+  ///The constructor does not take any parameters.
   const ReviewDocument({Key? key}) : super(key: key);
 
   @override
@@ -70,7 +75,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
           ),
         ),
         const Divider(
-          thickness: 3,
+          thickness: 2,
           color: Colors.black,
         ),
         _buildReview(context),
@@ -91,6 +96,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
     );
   }
 
+  // ignore: unused_element
   Widget _buildComments() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
@@ -112,6 +118,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
     );
   }
 
+  ///Function used to build review with slider.
   Widget _buildReview(BuildContext context) {
     return Column(
       children: [
@@ -162,7 +169,9 @@ class _ReviewDocumentState extends State<ReviewDocument> {
           ),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            context.go('/home');
+          },
           child: const Text('Submit'),
         ),
       ],

@@ -1,7 +1,8 @@
 import 'package:document_review/app/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-///Screen that allows a user to add a document.
+///[AddDocumentScreen] allows a user to add a new document.
 class AddDocumentScreen extends StatefulWidget {
   ///The constructor does not take any parameters.
   // ignore: sort_constructors_first
@@ -12,7 +13,7 @@ class AddDocumentScreen extends StatefulWidget {
 }
 
 class _AddDocumentScreenState extends State<AddDocumentScreen> {
-  ///Controller for the text.
+  ///Controller for the title.
   final TextEditingController titleController = TextEditingController();
 
   ///Controller for the description.
@@ -20,7 +21,10 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ///List of strings for the dropdown button widget.
     final categories = ['Category...', 'Another', 'Yet Another', 'One More'];
+
+    ///Initial value of the dropdown button.
     var dropdownValue = 'Category...';
     return Scaffold(
       appBar: AppBar(
@@ -87,7 +91,9 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      ///Implement file picker.
+                    },
                     child: const Text('Browse'),
                   ),
                 ),
@@ -98,7 +104,9 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
               child: CircleAvatar(
                 radius: 30,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go('/home');
+                  },
                   icon: const Icon(
                     Icons.upload,
                     size: 30,

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
+  ///Go router makes use of Flutter Navigation 2.0.
   final _router = GoRouter(
     routes: [
       GoRoute(
@@ -30,6 +31,8 @@ void main() {
       ),
     ],
   );
+
+  ///Entry point of the app.
   runApp(
     MaterialApp.router(
       debugShowCheckedModeBanner: false,

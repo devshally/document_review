@@ -1,7 +1,8 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, comment_references
 
 import 'package:flutter/material.dart';
 
+///Custom widget used on [ReviewDocument] to capture a users comment.
 class CommentWidget extends StatelessWidget {
   const CommentWidget({
     Key? key,

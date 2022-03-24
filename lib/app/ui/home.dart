@@ -1,10 +1,11 @@
 import 'package:document_review/app/widgets/document_widget.dart';
 import 'package:document_review/app/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-///This is the beginning of the app.
+///[HomeScreen] is the beginning of the app once a user is logged in.
 class HomeScreen extends StatelessWidget {
-  ///Nothing declared in the constructor yet.
+  ///The constructor does not take any parameters.
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -35,10 +36,13 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.push('/addDocument');
+        },
         child: const Icon(Icons.add),
       ),
       body: Column(
+        ///Column builds [DocumentWidget]'s based on the number in the list.
         children: const [
           DocumentWidget(),
         ],

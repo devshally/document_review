@@ -2,10 +2,11 @@
 
 import 'package:document_review/app/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-///Asked to document all public members.
+///[LoginScreen] is the first screen a user sees once the application starts.
 class LoginScreen extends StatefulWidget {
-  ///Asked to document all public members.
+  ///The constructor does not take any parameters.
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -13,10 +14,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  ///[TextEditingController] for the username.
   final TextEditingController usernameController = TextEditingController();
 
+  ///[TextEditingController] for the password.
   final TextEditingController passwordController = TextEditingController();
 
+  ///Initial bool value for password visibility.
   bool visible = false;
 
   @override
@@ -94,7 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           horizontal: 50,
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.go('/home');
+                      },
                       child: const Text(
                         'Login',
                       ),
