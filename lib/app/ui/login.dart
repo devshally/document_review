@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   ///Initial bool value for password visibility.
-  bool visible = false;
+  bool visible = true;
 
   // ignore: avoid_void_async
   void authenticateUser(String email, String password) async {
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
       case 'User3':
         return 'user3@gmail.com';
       default:
-        return 'user1@gmail.com';
+        return '$username@gmail.com';
     }
   }
 
@@ -73,82 +73,83 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 60,
-              horizontal: 20,
+            padding: const EdgeInsets.all(
+              20,
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/images/document.png',
-                    height: 150,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Text(
-                      'DOCUMENT-REVIEW',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Color(0xFF4B39EF),
-                      ),
+            child: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/document.png',
+                      height: 150,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: TextFieldWidget(
-                      controller: usernameController,
-                      label: 'Username',
-                    ),
-                  ),
-                  TextFormField(
-                    controller: passwordController,
-                    obscureText: visible,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey.shade200,
-                      label: const Text(
-                        'Password',
-                      ),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Text(
+                        'DOCUMENT-REVIEW',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Color(0xFF4B39EF),
                         ),
                       ),
-                      suffixIcon: IconButton(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: TextFieldWidget(
+                        controller: usernameController,
+                        label: 'Username',
+                      ),
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      obscureText: visible,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey.shade200,
+                        label: const Text(
+                          'Password',
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              visible = !visible;
+                            });
+                          },
+                          icon: visible == false
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color(0xFF4B39EF),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 50,
+                          ),
+                        ),
                         onPressed: () {
-                          setState(() {
-                            visible = !visible;
-                          });
+                          authenticateUser(
+                            mapUserToEmail(usernameController.text),
+                            passwordController.text,
+                          );
                         },
-                        icon: visible == true
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFF4B39EF),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 50,
+                        child: const Text(
+                          'Login',
                         ),
                       ),
-                      onPressed: () {
-                        authenticateUser(
-                          mapUserToEmail(usernameController.text),
-                          passwordController.text,
-                        );
-                      },
-                      child: const Text(
-                        'Login',
-                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

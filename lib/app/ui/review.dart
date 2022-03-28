@@ -1,12 +1,14 @@
 // ignore_for_file: sort_constructors_first, prefer_int_literals
 
 import 'package:document_review/app/widgets/comment_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 ///An enum to decide whether a document is passed or the user should ammend it.
 // ignore: public_member_api_docs
 enum Review { passed, ammend }
+enum Userm { user1, user2, user3 }
 
 ///[ReviewDocument] screen allows a user to review a document.
 class ReviewDocument extends StatefulWidget {
@@ -26,6 +28,43 @@ class _ReviewDocumentState extends State<ReviewDocument> {
   );
 
   final TextEditingController descriptionController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
+  String userEmail = '';
+
+  // ignore: avoid_void_async
+  void getCurrentUser() async {
+    // ignore: await_only_futures
+    final user = await _auth.currentUser!.email;
+    setState(() {
+      userEmail = user!;
+    });
+  }
+
+  //Get the current user and map it to Userm.
+  Userm returnUser(String userEmail) {
+    switch (userEmail) {
+      case 'user1@gmail.com':
+        return Userm.user1;
+      case 'user2@gmail.com':
+        return Userm.user2;
+      case 'user3@gmail.com':
+        return Userm.user3;
+      default:
+        return Userm.user1;
+    }
+  }
+
+  @override
+  void initState() {
+    getCurrentUser();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    getCurrentUser();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +117,10 @@ class _ReviewDocumentState extends State<ReviewDocument> {
           thickness: 2,
           color: Colors.black,
         ),
-        _buildReview(context),
+        // ignore: prefer_if_elements_to_conditional_expressions
+        returnUser(userEmail) == Userm.user1
+            ? _buildReview(context)
+            : _buildComments(),
       ],
     );
   }
@@ -96,7 +138,6 @@ class _ReviewDocumentState extends State<ReviewDocument> {
     );
   }
 
-  // ignore: unused_element
   Widget _buildComments() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
