@@ -2,10 +2,15 @@ import 'package:document_review/app/ui/add_document.dart';
 import 'package:document_review/app/ui/home.dart';
 import 'package:document_review/app/ui/login.dart';
 import 'package:document_review/app/ui/review.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-void main() {
+// ignore: avoid_void_async
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   ///Go router makes use of Flutter Navigation 2.0.
   final _router = GoRouter(
     routes: [

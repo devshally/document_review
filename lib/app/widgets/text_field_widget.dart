@@ -19,8 +19,11 @@ class TextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: TextCapitalization.words,
       controller: controller,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.grey.shade200,
         label: Text(
           label,
         ),

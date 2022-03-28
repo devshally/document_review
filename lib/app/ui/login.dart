@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'package:document_review/app/widgets/text_field_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,8 +21,41 @@ class _LoginScreenState extends State<LoginScreen> {
   ///[TextEditingController] for the password.
   final TextEditingController passwordController = TextEditingController();
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   ///Initial bool value for password visibility.
   bool visible = false;
+
+  // ignore: avoid_void_async
+  void authenticateUser(String email, String password) async {
+    try {
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((user) {
+        context.go('/home');
+      });
+    } on FirebaseException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message!),
+        ),
+      );
+    }
+  }
+
+  //Map string username to email.
+  String mapUserToEmail(String username) {
+    switch (username) {
+      case 'User1':
+        return 'user1@gmail.com';
+      case 'User2':
+        return 'user2@gmail.com';
+      case 'User3':
+        return 'user3@gmail.com';
+      default:
+        return 'user1@gmail.com';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +65,11 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Align(
             alignment: Alignment.bottomCenter,
-            child: Image.asset(
-              'assets/images/books.jpeg',
+            child: Opacity(
+              opacity: 0.2,
+              child: Image.asset(
+                'assets/images/books.jpeg',
+              ),
             ),
           ),
           Padding(
@@ -68,6 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: passwordController,
                     obscureText: visible,
                     decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey.shade200,
                       label: const Text(
                         'Password',
                       ),
@@ -99,7 +138,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: () {
-                        context.go('/home');
+                        authenticateUser(
+                          mapUserToEmail(usernameController.text),
+                          passwordController.text,
+                        );
                       },
                       child: const Text(
                         'Login',
