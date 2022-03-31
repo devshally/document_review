@@ -20,7 +20,7 @@ class CommentWidget extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.grey.shade400,
+          color: Colors.blueGrey.shade100,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,13 +29,13 @@ class CommentWidget extends StatelessWidget {
               'Username',
               style: TextStyle(
                 color: Colors.indigo.shade800,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(height: 15),
             const Text(
-              'Comment',
+              'Comment lorem ipsum ni cali se tai ma can ji fong long teng jai out eininv fcei viv vnw ivr fenj.',
               style: TextStyle(fontSize: 16),
             ),
           ],

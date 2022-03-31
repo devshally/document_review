@@ -22,10 +22,17 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
   @override
   Widget build(BuildContext context) {
     ///List of strings for the dropdown button widget.
-    final categories = ['Category...', 'Another', 'Yet Another', 'One More'];
+    final categories = <String>[
+      'Category...',
+      'Story',
+      'Article',
+      'Report',
+      'Others'
+    ];
 
     ///Initial value of the dropdown button.
-    var dropdownValue = 'Category...';
+    var category = 'Category...';
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey.shade700,
@@ -45,21 +52,29 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
             ),
             const SizedBox(height: 15),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 7),
               decoration: const BoxDecoration(color: Colors.white),
               child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: dropdownValue,
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                  value: category,
                   isExpanded: true,
-                  items: categories.map((String category) {
+                  items:
+                      categories.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem(
-                      value: category,
-                      child: Text(category),
+                      value: value,
+                      child: Text(value),
                     );
                   }).toList(),
-                  onChanged: (String? newValue) {
+                  onChanged: (newValue) {
                     setState(() {
-                      dropdownValue = newValue!;
+                      category = newValue!;
                     });
                   },
                 ),
@@ -100,7 +115,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 50),
               child: CircleAvatar(
                 radius: 30,
                 child: IconButton(

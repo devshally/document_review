@@ -23,7 +23,7 @@ class SearchWidget extends StatelessWidget {
       ),
       child: TextFormField(
         decoration: const InputDecoration(
-          hintText: 'Search for friends...',
+          hintText: 'Search for documents...',
           prefixIcon: Icon(Icons.search),
           border: InputBorder.none,
         ),

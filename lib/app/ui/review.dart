@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 ///An enum to decide whether a document is passed or the user should ammend it.
 // ignore: public_member_api_docs
 enum Review { passed, ammend }
+// ignore: public_member_api_docs
 enum Userm { user1, user2, user3 }
 
 ///[ReviewDocument] screen allows a user to review a document.
@@ -55,19 +56,8 @@ class _ReviewDocumentState extends State<ReviewDocument> {
   }
 
   @override
-  void initState() {
-    getCurrentUser();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    getCurrentUser();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    getCurrentUser();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey.shade700,
@@ -75,87 +65,55 @@ class _ReviewDocumentState extends State<ReviewDocument> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(child: _buildBody(context)),
+        child: SingleChildScrollView(
+          child: returnUser(userEmail) == Userm.user1
+              ? _buildUserOneBody()
+              : _buildOtherUserBody(),
+        ),
       ),
-    );
-  }
-
-  Widget _buildBody(BuildContext context) {
-    return Column(
-      children: [
-        _buildImage(),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Category',
-                style: style,
-              ),
-              Text(
-                'Download',
-                style: style,
-              ),
-              Text(
-                'Status',
-                style: style,
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: TextFormField(
-            controller: descriptionController,
-            decoration: const InputDecoration(
-              hintText: 'Description',
-            ),
-          ),
-        ),
-        const Divider(
-          thickness: 2,
-          color: Colors.black,
-        ),
-        // ignore: prefer_if_elements_to_conditional_expressions
-        returnUser(userEmail) == Userm.user1
-            ? _buildReview(context)
-            : _buildComments(),
-      ],
     );
   }
 
   Widget _buildImage() {
-    return Container(
-      height: 400,
-      width: double.maxFinite,
-      color: Colors.blueGrey.shade100,
-      child: Icon(
-        Icons.photo_size_select_actual_outlined,
-        size: 250,
-        color: Colors.blueGrey.shade200,
+    return Center(
+      child: Container(
+        height: 250,
+        width: 200,
+        color: Colors.blueGrey.shade100,
+        child: Icon(
+          Icons.photo_size_select_actual_outlined,
+          size: 100,
+          color: Colors.blueGrey.shade200,
+        ),
       ),
     );
   }
 
-  Widget _buildComments() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Comment(s)',
-            style: TextStyle(
-              color: Colors.grey.shade800,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1,
+  Widget _buildHeader() {
+    return Column(
+      children: [
+        _buildImage(),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Text(
+              'Download',
+              style: TextStyle(
+                fontSize: 16,
+                // fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          const CommentWidget(),
-        ],
-      ),
+            Text(
+              'View',
+              style: TextStyle(
+                fontSize: 16,
+                // fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -209,12 +167,76 @@ class _ReviewDocumentState extends State<ReviewDocument> {
             },
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: TextFormField(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Add comment',
+            ),
+            maxLines: 5,
+            textCapitalization: TextCapitalization.sentences,
+          ),
+        ),
         ElevatedButton(
           onPressed: () {
             context.go('/home');
           },
           child: const Text('Submit'),
         ),
+      ],
+    );
+  }
+
+  Widget _buildUserOneBody() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildHeader(),
+        const SizedBox(height: 20),
+        Text(
+          'Rate this document:',
+          style: TextStyle(
+            color: Colors.blueGrey.shade800,
+            fontSize: 16,
+          ),
+        ),
+        _buildReview(context),
+      ],
+    );
+  }
+
+  Widget _buildOtherUserBody() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildHeader(),
+        const SizedBox(height: 20),
+        Text(
+          'Rating: 4',
+          style: TextStyle(
+            color: Colors.blueGrey.shade800,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Status: Passed',
+          style: TextStyle(
+            color: Colors.blueGrey.shade800,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Comments:',
+          style: TextStyle(
+            color: Colors.blueGrey.shade800,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(height: 20),
+        const CommentWidget(),
       ],
     );
   }

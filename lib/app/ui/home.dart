@@ -41,11 +41,17 @@ class HomeScreen extends StatelessWidget {
         },
         child: const Icon(Icons.add),
       ),
-      body: Column(
-        ///Column builds [DocumentWidget]'s based on the number in the list.
-        children: const [
-          DocumentWidget(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          ///Column builds [DocumentWidget]'s based on the number in the list.
+          children: const [
+            DocumentWidget(),
+            DocumentWidget(),
+            DocumentWidget(),
+            DocumentWidget(),
+          ],
+        ),
       ),
     );
   }
