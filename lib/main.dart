@@ -1,9 +1,11 @@
+import 'package:document_review/app/logic/features/document/presentation/cubit/document_cubit.dart';
 import 'package:document_review/app/ui/add_document.dart';
 import 'package:document_review/app/ui/home.dart';
 import 'package:document_review/app/ui/login.dart';
 import 'package:document_review/app/ui/review.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 // ignore: avoid_void_async
@@ -39,13 +41,16 @@ void main() async {
 
   ///Entry point of the app.
   runApp(
-    MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routeInformationParser: _router.routeInformationParser,
-      routerDelegate: _router.routerDelegate,
-      title: 'Document-Review',
-      theme: ThemeData(
-        primaryColor: const Color(0xFF6F448C),
+    BlocProvider(
+      create: (context) => DocumentCubit(),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routeInformationParser: _router.routeInformationParser,
+        routerDelegate: _router.routerDelegate,
+        title: 'Document-Review',
+        theme: ThemeData(
+          primaryColor: const Color(0xFF6F448C),
+        ),
       ),
     ),
   );
@@ -53,4 +58,10 @@ void main() async {
 
 
 
-///Status :- uploaded, passed, ammend, defult on upload is uploaded.
+///Status :- uploaded, passed, ammend, default on upload is uploaded.
+// enum Status {
+//   uploaded,
+//   passed,
+//   ammend,
+//   defaultOnUpload,
+// }
