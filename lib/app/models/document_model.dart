@@ -4,14 +4,14 @@ import 'package:equatable/equatable.dart';
 
 ///The [DocumentModel] is the model used to store the data for a document.
 class DocumentModel extends Equatable {
-  final int id;
-  final String username;
-  final String title;
-  final String description;
-  final String category;
-  final String status;
-  final String review;
-  final String rating;
+  final int? id;
+  final String? username;
+  final String? title;
+  final String? description;
+  final String? category;
+  final String? status;
+  final String? review;
+  final String? rating;
   final String? document;
   final String? date;
 

@@ -211,8 +211,8 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         ),
         const SizedBox(height: 20),
         CommentWidget(
-          userName: widget.documentModel.username,
-          comment: widget.documentModel.review,
+          userName: widget.documentModel.username!,
+          comment: widget.documentModel.review!,
         ),
       ],
     );
