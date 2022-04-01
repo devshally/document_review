@@ -1,5 +1,6 @@
 // ignore_for_file: sort_constructors_first, prefer_int_literals
 
+import 'package:document_review/app/models/document_model.dart';
 import 'package:document_review/app/widgets/comment_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,9 @@ enum Userm { user1, user2, user3 }
 
 ///[ReviewDocument] screen allows a user to review a document.
 class ReviewDocument extends StatefulWidget {
-  ///The constructor does not take any parameters.
-  const ReviewDocument({Key? key}) : super(key: key);
+  final DocumentModel documentModel;
+  const ReviewDocument({Key? key, required this.documentModel})
+      : super(key: key);
 
   @override
   State<ReviewDocument> createState() => _ReviewDocumentState();
@@ -213,7 +215,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         _buildHeader(),
         const SizedBox(height: 20),
         Text(
-          'Rating: 4',
+          'Rating: ${widget.documentModel.rating}',
           style: TextStyle(
             color: Colors.blueGrey.shade800,
             fontSize: 16,
@@ -221,7 +223,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         ),
         const SizedBox(height: 20),
         Text(
-          'Status: Passed',
+          'Status: ${widget.documentModel.status}',
           style: TextStyle(
             color: Colors.blueGrey.shade800,
             fontSize: 16,
@@ -229,7 +231,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         ),
         const SizedBox(height: 20),
         Text(
-          'Comments:',
+          'Comments: ${widget.documentModel.review}',
           style: TextStyle(
             color: Colors.blueGrey.shade800,
             fontSize: 16,

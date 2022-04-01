@@ -1,3 +1,4 @@
+import 'package:document_review/app/models/document_model.dart';
 import 'package:document_review/app/ui/add_document.dart';
 import 'package:document_review/app/ui/home.dart';
 import 'package:document_review/app/ui/login.dart';
@@ -26,8 +27,12 @@ void main() async {
       ),
       GoRoute(
         path: '/review',
-        builder: (BuildContext context, GoRouterState state) =>
-            const ReviewDocument(),
+        builder: (BuildContext context, GoRouterState state) {
+          final DocumentModel document = state.params as DocumentModel;
+          return ReviewDocument(
+            documentModel: document,
+          );
+        },
       ),
       GoRoute(
         path: '/addDocument',
