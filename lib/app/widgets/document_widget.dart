@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 class DocumentWidget extends StatelessWidget {
   ///The constructor will take a document model.
   final DocumentModel document;
+  final Userm userm;
   const DocumentWidget({
     Key? key,
-    required this.document,
+    required this.document, required this.userm,
   }) : super(key: key);
 
   @override
@@ -20,7 +21,7 @@ class DocumentWidget extends StatelessWidget {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => ReviewDocument(documentModel: document),
+            builder: (_) => ReviewDocument(documentModel: document, userm: userm,),
           ),
         ),
         child: Container(

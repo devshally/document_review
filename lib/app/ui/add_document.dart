@@ -1,14 +1,15 @@
 import 'dart:io';
 
+import 'package:document_review/app/data/document_service.dart';
+import 'package:document_review/app/ui/home.dart';
 import 'package:document_review/app/widgets/text_field_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 ///[AddDocumentScreen] allows a user to add a new document.
 class AddDocumentScreen extends StatefulWidget {
-  ///The constructor does not take any parameters.
-  // ignore: sort_constructors_first
-  const AddDocumentScreen({Key? key}) : super(key: key);
+  final Userm userm;
+  const AddDocumentScreen({Key? key, required this.userm}) : super(key: key);
 
   @override
   State<AddDocumentScreen> createState() => _AddDocumentScreenState();
@@ -21,6 +22,8 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
   ///Controller for the description.
   final TextEditingController descriptionController = TextEditingController();
   String? documentName;
+  String? downloadUrl;
+  final DocumentService documentService = DocumentService();
 
   @override
   Widget build(BuildContext context) {
@@ -121,10 +124,18 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                       ),
                       onPressed: () async {
                         await uploadDocument().then(
-                          (value) {
-                            if (value != null) {
-                              //Upload pdf to firebase storage.
-                            }
+                          (value) async {
+                            downloadUrl = await documentService
+                                .addDocument(value!, documentName!)
+                                .whenComplete(
+                                  () => ScaffoldMessenger.of(context)
+                                      .showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Document uploaded successfully'),
+                                    ),
+                                  ),
+                                );
                           },
                         );
                       },
@@ -139,7 +150,14 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                   radius: 30,
                   child: IconButton(
                     onPressed: () {
-                      //Upload document
+                      //Upload document to backend.
+                      documentService.uploadDocument(
+                        username: widget.userm.toString(),
+                        title: titleController.text,
+                        description: descriptionController.text,
+                        category: category,
+                        document: downloadUrl!,
+                      );
                     },
                     icon: const Icon(
                       Icons.upload,

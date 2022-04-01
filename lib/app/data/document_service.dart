@@ -23,7 +23,7 @@ class DocumentService {
     }
   }
 
-  Future uploadDocument({
+  void uploadDocument({
     required String username,
     required String title,
     required String description,

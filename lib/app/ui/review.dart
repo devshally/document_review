@@ -1,20 +1,21 @@
 // ignore_for_file: sort_constructors_first, prefer_int_literals
 
 import 'package:document_review/app/models/document_model.dart';
+import 'package:document_review/app/ui/home.dart';
 import 'package:document_review/app/widgets/comment_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 ///An enum to decide whether a document is passed or the user should ammend it.
 // ignore: public_member_api_docs
 enum Review { passed, ammend }
 // ignore: public_member_api_docs
-enum Userm { user1, user2, user3 }
 
 ///[ReviewDocument] screen allows a user to review a document.
 class ReviewDocument extends StatefulWidget {
   final DocumentModel documentModel;
-  const ReviewDocument({Key? key, required this.documentModel})
+  final Userm userm;
+  const ReviewDocument(
+      {Key? key, required this.documentModel, required this.userm})
       : super(key: key);
 
   @override
@@ -30,35 +31,9 @@ class _ReviewDocumentState extends State<ReviewDocument> {
   );
 
   final TextEditingController descriptionController = TextEditingController();
-  final _auth = FirebaseAuth.instance;
-  String userEmail = '';
-
-  // ignore: avoid_void_async
-  void getCurrentUser() async {
-    // ignore: await_only_futures
-    final user = await _auth.currentUser!.email;
-    setState(() {
-      userEmail = user!;
-    });
-  }
-
-  //Get the current user and map it to Userm.
-  Userm returnUser(String userEmail) {
-    switch (userEmail) {
-      case 'user1@gmail.com':
-        return Userm.user1;
-      case 'user2@gmail.com':
-        return Userm.user2;
-      case 'user3@gmail.com':
-        return Userm.user3;
-      default:
-        return Userm.user1;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    getCurrentUser();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey.shade700,
@@ -67,7 +42,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
-          child: returnUser(userEmail) == Userm.user1
+          child: widget.userm == Userm.user1
               ? _buildUserOneBody()
               : _buildOtherUserBody(),
         ),
