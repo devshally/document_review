@@ -41,7 +41,7 @@ class DocumentService {
         "category": category,
         "status": "uploaded",
         "document": document,
-        "date": time,
+        "date": time.toString(),
       },
     );
   }
