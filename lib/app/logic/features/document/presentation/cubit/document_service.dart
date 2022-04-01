@@ -51,8 +51,9 @@ class DocumentService {
     final response = await dio.get(
         'https://budgetmental-austriagenesis-8080.codio-box.uk/api/v2/documents');
     if (response.statusCode == 200) {
-      final List<DocumentModel> documents = response.data.map((e) {
-        return DocumentModel.fromJson(e);
+      final List<DocumentModel> documents =
+          response.data["documents"].map<DocumentModel>((document) {
+        return DocumentModel.fromJson(document);
       }).toList();
       return documents;
     } else {

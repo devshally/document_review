@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 
 ///The [DocumentModel] is the model used to store the data for a document.
 class DocumentModel extends Equatable {
-  final String id;
+  final int id;
   final String username;
   final String title;
   final String description;
@@ -12,8 +12,8 @@ class DocumentModel extends Equatable {
   final String status;
   final String review;
   final String rating;
-  final String document;
-  final String date;
+  final String? document;
+  final String? date;
 
   const DocumentModel({
     required this.id,
@@ -44,16 +44,16 @@ class DocumentModel extends Equatable {
 
   factory DocumentModel.fromJson(Map<String, dynamic> json) {
     return DocumentModel(
-      id: json['id'] as String,
-      username: json['username'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      category: json['category'] as String,
-      status: json['status'] as String,
-      review: json['review'] as String,
-      rating: json['rating'] as String,
-      document: json['document'] as String,
-      date: json['date'] as String,
+      id: json['id'] as int,
+      username: json['username'],
+      title: json['title'],
+      description: json['description'],
+      category: json['category'],
+      status: json['status'],
+      review: json['review'],
+      rating: json['rating'],
+      document: json['document'],
+      date: json['date'],
     );
   }
 

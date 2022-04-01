@@ -65,20 +65,23 @@ class HomeScreen extends StatelessWidget {
           }
           final List<DocumentModel> documents =
               snapshot.data as List<DocumentModel>;
-          return ListView.builder(
-            itemCount: documents.length,
-            itemBuilder: ((context, index) {
-              return InkWell(
-                onTap: () {
-                  context.push(
-                    '/review',
-                  );
-                },
-                child: DocumentWidget(
-                  document: documents[index],
-                ),
-              );
-            }),
+          return SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: ListView.builder(
+              itemCount: documents.length,
+              itemBuilder: ((context, index) {
+                return InkWell(
+                  onTap: () {
+                    context.push(
+                      '/review',
+                    );
+                  },
+                  child: DocumentWidget(
+                    document: documents[index],
+                  ),
+                );
+              }),
+            ),
           );
         } else {
           return const Center(
