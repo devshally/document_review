@@ -4,7 +4,6 @@ import 'package:document_review/app/models/document_model.dart';
 import 'package:document_review/app/widgets/comment_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 ///An enum to decide whether a document is passed or the user should ammend it.
 // ignore: public_member_api_docs
@@ -182,7 +181,6 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         ),
         ElevatedButton(
           onPressed: () {
-            context.go('/home');
           },
           child: const Text('Submit'),
         ),

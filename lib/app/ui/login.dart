@@ -3,7 +3,6 @@
 import 'package:document_review/app/widgets/text_field_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 ///[LoginScreen] is the first screen a user sees once the application starts.
 class LoginScreen extends StatefulWidget {
@@ -32,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((user) {
-        context.go('/home');
+            //Navigate to the home screen.
       });
     } on FirebaseException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

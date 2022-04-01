@@ -1,7 +1,7 @@
 import 'package:document_review/app/models/document_model.dart';
 import 'package:document_review/app/ui/home.dart';
+import 'package:document_review/app/ui/review.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 ///Custom widget used to display document data to users on the [HomeScreen].
 class DocumentWidget extends StatelessWidget {
@@ -17,7 +17,12 @@ class DocumentWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: GestureDetector(
-        onTap: () => context.push('/review'),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ReviewDocument(documentModel: document),
+          ),
+        ),
         child: Container(
           width: double.maxFinite,
           decoration: BoxDecoration(

@@ -3,7 +3,6 @@ import 'package:document_review/app/models/document_model.dart';
 import 'package:document_review/app/widgets/document_widget.dart';
 import 'package:document_review/app/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 ///[HomeScreen] is the beginning of the app once a user is logged in.
 class HomeScreen extends StatelessWidget {
@@ -39,7 +38,6 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.push('/addDocument');
         },
         child: const Icon(Icons.add),
       ),
@@ -71,11 +69,7 @@ class HomeScreen extends StatelessWidget {
               itemCount: documents.length,
               itemBuilder: ((context, index) {
                 return InkWell(
-                  onTap: () {
-                    context.push(
-                      '/review',
-                    );
-                  },
+                  onTap: () {},
                   child: DocumentWidget(
                     document: documents[index],
                   ),

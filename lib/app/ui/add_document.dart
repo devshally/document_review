@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:document_review/app/widgets/text_field_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 ///[AddDocumentScreen] allows a user to add a new document.
 class AddDocumentScreen extends StatefulWidget {
@@ -141,7 +140,6 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                   child: IconButton(
                     onPressed: () {
                       //Upload document
-                      context.go('/home');
                     },
                     icon: const Icon(
                       Icons.upload,
