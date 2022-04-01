@@ -1,3 +1,4 @@
+import 'package:document_review/app/models/document_model.dart';
 import 'package:document_review/app/ui/home.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -5,8 +6,10 @@ import 'package:go_router/go_router.dart';
 ///Custom widget used to display document data to users on the [HomeScreen].
 class DocumentWidget extends StatelessWidget {
   ///The constructor will take a document model.
+  final DocumentModel document;
   const DocumentWidget({
     Key? key,
+    required this.document,
   }) : super(key: key);
 
   @override
@@ -32,39 +35,39 @@ class DocumentWidget extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  'Title: Document Title',
-                  style: TextStyle(
+                  'Title: ${document.title}',
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
-                  'Category: Category',
-                  style: TextStyle(
+                  'Category: ${document.category}',
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
-                  'Status: Uploaded',
-                  style: TextStyle(
+                  'Status: ${document.status}',
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
-                  'Uploaded by: User 3',
-                  style: TextStyle(
+                  'Uploaded by: ${document.username}',
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
-                  'Date Uploaded: 30/03/22',
-                  style: TextStyle(
+                  'Date Uploaded: ${document.date}',
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),

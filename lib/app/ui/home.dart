@@ -63,12 +63,14 @@ class HomeScreen extends StatelessWidget {
               child: Text('Error: Something went wrong, please try again'),
             );
           }
-          final List<DocumentModel> authors =
+          final List<DocumentModel> documents =
               snapshot.data as List<DocumentModel>;
           return ListView.builder(
-            itemCount: authors.length,
+            itemCount: documents.length,
             itemBuilder: ((context, index) {
-              return const DocumentWidget();
+              return DocumentWidget(
+                document: documents[index],
+              );
             }),
           );
         } else {
