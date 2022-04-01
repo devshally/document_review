@@ -31,19 +31,25 @@ class DocumentService {
     required String document,
   }) async {
     final dio = Dio();
-    final time = NTP.now();
-    await dio.post(
-      'https://budgetmental-austriagenesis-8080.codio-box.uk/api/v2/documents',
-      data: <String, dynamic>{
-        "username": username,
-        "title": title,
-        "description": description,
-        "category": category,
-        "status": "uploaded",
-        "document": document,
-        "date": time.toString(),
-      },
-    );
+    final time = await NTP.now();
+    try {
+      await dio.post(
+        'https://budgetmental-austriagenesis-8080.codio-box.uk/api/v2/post',
+        queryParameters: {
+          "username": username,
+          "title": title,
+          "description": description,
+          "category": category,
+          "status": "uploaded",
+          "review": "",
+          "rating": "",
+          "document": document,
+          "date": time.toString(),
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<List<DocumentModel>> getDocuments() async {
