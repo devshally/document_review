@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:document_review/app/models/document_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:ntp/ntp.dart';
@@ -49,5 +50,19 @@ class DocumentCubit extends Cubit<DocumentState> {
         "date": time,
       },
     );
+  }
+
+  Future<List<DocumentModel>> getDocuments() async {
+    final dio = Dio();
+    final response = await dio.get(
+        'https://budgetmental-austriagenesis-8080.codio-box.uk/api/v2/documents');
+    if (response.statusCode == 200) {
+      final List<DocumentModel> documents = response.data.map((e) {
+        return DocumentModel.fromJson(e);
+      }).toList();
+      return documents;
+    } else {
+      throw Exception('Failed to load documents');
+    }
   }
 }

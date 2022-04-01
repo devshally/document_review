@@ -8,3 +8,20 @@ abstract class DocumentState extends Equatable {
 }
 
 class DocumentInitial extends DocumentState {}
+
+class DocumentLoading extends DocumentState {}
+
+class DocumentLoaded extends DocumentState {
+  final DocumentModel model;
+
+  const DocumentLoaded(this.model);
+}
+
+class DocumentError extends DocumentState {
+  final String message;
+
+  const DocumentError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
