@@ -1,3 +1,5 @@
+import 'package:document_review/app/logic/features/document/presentation/cubit/document_service.dart';
+import 'package:document_review/app/models/document_model.dart';
 import 'package:document_review/app/widgets/document_widget.dart';
 import 'package:document_review/app/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
@@ -44,16 +46,37 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Column(
-            children: const [
-              DocumentWidget(),
-              DocumentWidget(),
-              DocumentWidget(),
-              DocumentWidget(),
-            ],
-          ),
+          child: _buildBody(),
         ),
       ),
+    );
+  }
+
+  Widget _buildBody() {
+    final DocumentService documentService = DocumentService();
+    return FutureBuilder(
+      future: documentService.getDocuments(),
+      builder: ((context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('Error: Something went wrong, please try again'),
+            );
+          }
+          final List<DocumentModel> authors =
+              snapshot.data as List<DocumentModel>;
+          return ListView.builder(
+            itemCount: authors.length,
+            itemBuilder: ((context, index) {
+              return const DocumentWidget();
+            }),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      }),
     );
   }
 }

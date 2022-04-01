@@ -1,11 +1,9 @@
-import 'package:document_review/app/logic/features/document/presentation/cubit/document_cubit.dart';
 import 'package:document_review/app/ui/add_document.dart';
 import 'package:document_review/app/ui/home.dart';
 import 'package:document_review/app/ui/login.dart';
 import 'package:document_review/app/ui/review.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 // ignore: avoid_void_async
@@ -41,16 +39,13 @@ void main() async {
 
   ///Entry point of the app.
   runApp(
-    BlocProvider(
-      create: (context) => DocumentCubit(),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routeInformationParser: _router.routeInformationParser,
-        routerDelegate: _router.routerDelegate,
-        title: 'Document-Review',
-        theme: ThemeData(
-          primaryColor: const Color(0xFF6F448C),
-        ),
+    MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routeInformationParser: _router.routeInformationParser,
+      routerDelegate: _router.routerDelegate,
+      title: 'Document-Review',
+      theme: ThemeData(
+        primaryColor: const Color(0xFF6F448C),
       ),
     ),
   );

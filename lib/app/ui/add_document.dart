@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:document_review/app/logic/features/document/presentation/cubit/document_cubit.dart';
 import 'package:document_review/app/widgets/text_field_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 ///[AddDocumentScreen] allows a user to add a new document.
@@ -126,8 +124,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                         await uploadDocument().then(
                           (value) {
                             if (value != null) {
-                              BlocProvider.of<DocumentCubit>(context)
-                                  .addDocument(value, documentName!);
+                              //Upload pdf to firebase storage.
                             }
                           },
                         );
@@ -143,13 +140,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                   radius: 30,
                   child: IconButton(
                     onPressed: () {
-                      BlocProvider.of<DocumentCubit>(context).uploadDocument(
-                        username: "username",
-                        title: titleController.text,
-                        description: descriptionController.text,
-                        category: category,
-                        document: "document",
-                      );
+                      //Upload document
                       context.go('/home');
                     },
                     icon: const Icon(

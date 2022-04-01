@@ -2,17 +2,12 @@
 
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:document_review/app/models/document_model.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:ntp/ntp.dart';
 
-part 'document_state.dart';
-
-class DocumentCubit extends Cubit<DocumentState> {
-  DocumentCubit() : super(DocumentInitial());
+class DocumentService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<String> addDocument(File filePath, String docName) async {
@@ -22,7 +17,6 @@ class DocumentCubit extends Cubit<DocumentState> {
       final downloadUrl = await uploadTask;
 
       final url = await downloadUrl.ref.getDownloadURL();
-      print(url);
       return url;
     } catch (e) {
       rethrow;
