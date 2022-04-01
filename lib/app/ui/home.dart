@@ -68,11 +68,8 @@ class HomeScreen extends StatelessWidget {
             child: ListView.builder(
               itemCount: documents.length,
               itemBuilder: ((context, index) {
-                return InkWell(
-                  onTap: () {},
-                  child: DocumentWidget(
-                    document: documents[index],
-                  ),
+                return DocumentWidget(
+                  document: documents[index],
                 );
               }),
             ),

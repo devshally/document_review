@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 
 ///Custom widget used on [ReviewDocument] to capture a users comment.
 class CommentWidget extends StatelessWidget {
+  final String userName;
+  final String comment;
   const CommentWidget({
     Key? key,
+    required this.userName,
+    required this.comment,
   }) : super(key: key);
 
   @override
@@ -26,7 +30,7 @@ class CommentWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Username',
+              userName,
               style: TextStyle(
                 color: Colors.indigo.shade800,
                 fontSize: 18,
@@ -34,9 +38,9 @@ class CommentWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            const Text(
-              'Comment lorem ipsum ni cali se tai ma can ji fong long teng jai out eininv fcei viv vnw ivr fenj.',
-              style: TextStyle(fontSize: 16),
+            Text(
+              comment,
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ),

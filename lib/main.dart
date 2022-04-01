@@ -1,3 +1,4 @@
+import 'package:document_review/app/ui/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ void main() async {
       theme: ThemeData(
         primaryColor: const Color(0xFF6F448C),
       ),
+      home: const LoginScreen(),
     ),
   );
 }

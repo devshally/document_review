@@ -180,8 +180,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
           ),
         ),
         ElevatedButton(
-          onPressed: () {
-          },
+          onPressed: () {},
           child: const Text('Submit'),
         ),
       ],
@@ -229,14 +228,17 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         ),
         const SizedBox(height: 20),
         Text(
-          'Comments: ${widget.documentModel.review}',
+          'Comments: ',
           style: TextStyle(
             color: Colors.blueGrey.shade800,
             fontSize: 16,
           ),
         ),
         const SizedBox(height: 20),
-        const CommentWidget(),
+        CommentWidget(
+          userName: widget.documentModel.username,
+          comment: widget.documentModel.review,
+        ),
       ],
     );
   }
