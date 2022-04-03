@@ -1,16 +1,17 @@
-import 'package:document_review/app/models/document_model.dart';
-import 'package:document_review/app/ui/home.dart';
-import 'package:document_review/app/ui/review.dart';
+import 'package:document_review/app/features/DocumentReview/domain/entities/document.dart';
+import 'package:document_review/app/features/DocumentReview/presentation/pages/home.dart';
+import 'package:document_review/app/features/DocumentReview/presentation/pages/review.dart';
 import 'package:flutter/material.dart';
 
-///Custom widget used to display document data to users on the [HomeScreen].
+///Custom widget used to display document data to users on the [Home].
 class DocumentWidget extends StatelessWidget {
   ///The constructor will take a document model.
-  final DocumentModel document;
+  final Document document;
   final Userm userm;
   const DocumentWidget({
     Key? key,
-    required this.document, required this.userm,
+    required this.document,
+    required this.userm,
   }) : super(key: key);
 
   @override
@@ -21,7 +22,10 @@ class DocumentWidget extends StatelessWidget {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => ReviewDocument(documentModel: document, userm: userm,),
+            builder: (_) => ReviewScreen(
+              document: document,
+              userm: userm,
+            ),
           ),
         ),
         child: Container(

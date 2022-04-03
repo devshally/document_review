@@ -1,36 +1,25 @@
-// ignore_for_file: sort_constructors_first, prefer_int_literals
-
-import 'package:document_review/app/models/document_model.dart';
-import 'package:document_review/app/ui/home.dart';
-import 'package:document_review/app/widgets/comment_widget.dart';
+import 'package:document_review/app/features/DocumentReview/domain/entities/document.dart';
+import 'package:document_review/app/features/DocumentReview/presentation/cubit/documentreview_cubit.dart';
+import 'package:document_review/app/features/DocumentReview/presentation/pages/home.dart';
+import 'package:document_review/app/features/DocumentReview/presentation/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-///An enum to decide whether a document is passed or the user should ammend it.
-// ignore: public_member_api_docs
-enum Review { passed, ammend }
-// ignore: public_member_api_docs
-
-///[ReviewDocument] screen allows a user to review a document.
-class ReviewDocument extends StatefulWidget {
-  final DocumentModel documentModel;
+class ReviewScreen extends StatefulWidget {
+  final Document document;
   final Userm userm;
-  const ReviewDocument(
-      {Key? key, required this.documentModel, required this.userm})
+  const ReviewScreen({Key? key, required this.document, required this.userm})
       : super(key: key);
 
   @override
-  State<ReviewDocument> createState() => _ReviewDocumentState();
+  State<ReviewScreen> createState() => _ReviewScreenState();
 }
 
-class _ReviewDocumentState extends State<ReviewDocument> {
+enum Review { passed, ammend }
+
+class _ReviewScreenState extends State<ReviewScreen> {
   Review _review = Review.passed;
   double _value = 0.0;
-  final TextStyle style = const TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w500,
-  );
-
-  final TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +28,27 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         backgroundColor: Colors.blueGrey.shade700,
         title: const Text('TITLE'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: widget.userm == Userm.user1
-              ? _buildUserOneBody()
-              : _buildOtherUserBody(),
-        ),
+      body: BlocConsumer<DocumentreviewCubit, DocumentreviewState>(
+        listener: (context, state) {
+          if (state is DocumentError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is DocumentLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return SingleChildScrollView(
+            child: widget.userm == Userm.user1
+                ? _buildUserOneBody()
+                : _buildOtherUserBody(),
+          );
+        },
       ),
     );
   }
@@ -187,7 +190,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         _buildHeader(),
         const SizedBox(height: 20),
         Text(
-          'Rating: ${widget.documentModel.rating}',
+          'Rating: ${widget.document.rating}',
           style: TextStyle(
             color: Colors.blueGrey.shade800,
             fontSize: 16,
@@ -195,7 +198,7 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         ),
         const SizedBox(height: 20),
         Text(
-          'Status: ${widget.documentModel.status}',
+          'Status: ${widget.document.status}',
           style: TextStyle(
             color: Colors.blueGrey.shade800,
             fontSize: 16,
@@ -211,8 +214,8 @@ class _ReviewDocumentState extends State<ReviewDocument> {
         ),
         const SizedBox(height: 20),
         CommentWidget(
-          userName: widget.documentModel.username!,
-          comment: widget.documentModel.review!,
+          userName: widget.document.username!,
+          comment: widget.document.review!,
         ),
       ],
     );

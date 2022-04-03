@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:document_review/app/models/document_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:ntp/ntp.dart';
 
 class DocumentService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -31,7 +30,7 @@ class DocumentService {
     required String document,
   }) async {
     final dio = Dio();
-    final time = await NTP.now();
+    final time = DateTime.now();
     try {
       await dio.post(
         'https://budgetmental-austriagenesis-8080.codio-box.uk/api/v2/post',
