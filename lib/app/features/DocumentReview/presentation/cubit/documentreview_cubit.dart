@@ -81,17 +81,17 @@ class DocumentreviewCubit extends Cubit<DocumentreviewState> {
 
   void getDocuments() async {
     emit(DocumentLoading());
-    print('This function works so far');
     try {
       final documents = await _dio.get(
-        'https://budgetmental-austriagenesis-8080.codio-box.uk/api/v2/get',
+        'https://budgetmental-austriagenesis-8080.codio-box.uk/api/v2/documents',
       );
-      List<Document> documentList = documents.data["results"]
+      List<Document> documentsList = documents.data["documents"]
           .map<Document>((document) => Document.fromJson(document))
           .toList();
-      print(documents);
-      // emit(DocumentRetrieved(documentList));
+      // print(documents.data["documents"]);
+      emit(DocumentRetrieved(documentsList));
     } on DioError catch (e) {
+      print(e);
       emit(DocumentError(e.toString()));
     }
   }

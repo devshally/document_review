@@ -1,6 +1,9 @@
 import 'package:document_review/app/features/DocumentReview/domain/entities/document.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/cubit/documentreview_cubit.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/pages/add_document.dart';
+import 'package:document_review/app/features/DocumentReview/presentation/pages/login.dart';
+import 'package:document_review/app/features/DocumentReview/presentation/pages/review.dart';
+import 'package:document_review/app/features/DocumentReview/presentation/widgets/document_widget.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,31 +96,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Colors.red,
               ),
             );
+          } else if (state is DocumentInitial) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()));
           }
         },
         builder: (context, state) {
           if (state is DocumentLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is DocumentRetrieved) {
-            return ListView.builder(itemBuilder: ((context, index) {
-              List<Document> documents = state.documents;
-              return ListTile(
-                title: Text(documents[index].title!),
-                subtitle: Text(documents[index].description!),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (_) => ReviewDocumentScreen(
-                  //       document: state.documents[index],
-                  //       userm: returnUser(userEmail),
-                  //     ),
-                  //   ),
-                  // );
-                },
-              );
-            }));
+            List<Document> documents = state.documents;
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: ListView.builder(
+                itemCount: state.documents.length,
+                itemBuilder: ((context, index) {
+                  return GestureDetector(
+                    onTap: (() => ReviewScreen(
+                          document: state.documents[index],
+                          userm: returnUser(widget.userEmail),
+                        )),
+                    child: DocumentWidget(
+                      document: documents[index],
+                      userm: returnUser(widget.userEmail),
+                    ),
+                  );
+                }),
+              ),
+            );
           }
           return SingleChildScrollView(
             child: Padding(
@@ -143,37 +149,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // Widget _buildBody() {
-  //   return FutureBuilder(
-  //     future: BlocProvider.of<DocumentreviewCubit>(context).getDocuments(),
-  //     builder: ((context, snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.done) {
-  //         if (snapshot.hasError) {
-  //           return const Center(
-  //             child: Text('Error: Something went wrong, please try again'),
-  //           );
-  //         }
-  //         final List<DocumentModel> documents =
-  //             snapshot.data as List<DocumentModel>;
-  //         return SizedBox(
-  //           height: MediaQuery.of(context).size.height,
-  //           child: ListView.builder(
-  //             itemCount: documents.length,
-  //             itemBuilder: ((context, index) {
-  //               return DocumentWidget(
-  //                 document: documents[index],
-  //                 userm: returnUser(userEmail),
-  //               );
-  //             }),
-  //           ),
-  //         );
-  //       } else {
-  //         return const Center(
-  //           child: CircularProgressIndicator(),
-  //         );
-  //       }
-  //     }),
-  //   );
-  // }
 }

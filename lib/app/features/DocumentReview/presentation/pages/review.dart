@@ -166,58 +166,64 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   Widget _buildUserOneBody() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildHeader(),
-        const SizedBox(height: 20),
-        Text(
-          'Rate this document:',
-          style: TextStyle(
-            color: Colors.blueGrey.shade800,
-            fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(),
+          const SizedBox(height: 20),
+          Text(
+            'Rate this document:',
+            style: TextStyle(
+              color: Colors.blueGrey.shade800,
+              fontSize: 16,
+            ),
           ),
-        ),
-        _buildReview(context),
-      ],
+          _buildReview(context),
+        ],
+      ),
     );
   }
 
   Widget _buildOtherUserBody() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildHeader(),
-        const SizedBox(height: 20),
-        Text(
-          'Rating: ${widget.document.rating}',
-          style: TextStyle(
-            color: Colors.blueGrey.shade800,
-            fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(),
+          const SizedBox(height: 20),
+          Text(
+            'Rating: ${widget.document.rating}',
+            style: TextStyle(
+              color: Colors.blueGrey.shade800,
+              fontSize: 16,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          'Status: ${widget.document.status}',
-          style: TextStyle(
-            color: Colors.blueGrey.shade800,
-            fontSize: 16,
+          const SizedBox(height: 20),
+          Text(
+            'Status: ${widget.document.status}',
+            style: TextStyle(
+              color: Colors.blueGrey.shade800,
+              fontSize: 16,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          'Comments: ',
-          style: TextStyle(
-            color: Colors.blueGrey.shade800,
-            fontSize: 16,
+          const SizedBox(height: 20),
+          Text(
+            'Comments: ',
+            style: TextStyle(
+              color: Colors.blueGrey.shade800,
+              fontSize: 16,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        CommentWidget(
-          userName: widget.document.username!,
-          comment: widget.document.review!,
-        ),
-      ],
+          const SizedBox(height: 20),
+          CommentWidget(
+            userName: widget.document.username!,
+            comment: widget.document.review!,
+          ),
+        ],
+      ),
     );
   }
 }

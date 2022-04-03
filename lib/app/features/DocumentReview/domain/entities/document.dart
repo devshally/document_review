@@ -55,23 +55,23 @@ class Document extends Equatable {
     };
   }
 
-  factory Document.fromMap(Map<String, dynamic> map) {
-    return Document(
-      map['id']?.toInt(),
-      map['username'],
-      map['title'],
-      map['description'],
-      map['category'],
-      map['status'],
-      map['review'],
-      map['rating'],
-      map['document'],
-      map['date'],
-    );
-  }
-
   String toJson() => json.encode(toMap());
 
-  factory Document.fromJson(String source) =>
-      Document.fromMap(json.decode(source));
+  // factory Document.fromJson(String source) =>
+  //     Document.fromMap(json.decode(source));
+
+  factory Document.fromJson(Map<String, dynamic> json) {
+    return Document(
+      json['id']?.toInt(),
+      json['username'],
+      json['title'],
+      json['description'],
+      json['category'],
+      json['status'],
+      json['review'],
+      json['rating'],
+      json['document'],
+      json['date'],
+    );
+  }
 }
