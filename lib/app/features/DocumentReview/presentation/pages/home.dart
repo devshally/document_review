@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (state is DocumentLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is DocumentRetrieved) {
-            List<Document> documents = state.documents;
+            List<Document> documents = state.documents.reversed.toList();
             return Padding(
               padding: const EdgeInsets.all(20),
               child: ListView.builder(
