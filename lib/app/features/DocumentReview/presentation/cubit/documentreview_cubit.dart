@@ -128,4 +128,20 @@ class DocumentreviewCubit extends Cubit<DocumentreviewState> {
       emit(DocumentError(e.message.toString()));
     }
   }
+
+  void uploadNewDocument({required String document, required String id}) async {
+    emit(DocumentLoading());
+    try {
+      await _dio.put(
+        'https://budgetmental-austriagenesis-8080.codio-box.uk/api/v2/documents/$id',
+        queryParameters: {
+          "document": document,
+          "status": 'uploaded',
+        },
+      );
+      emit(DocumentInitial());
+    } on DioError catch (e) {
+      emit(DocumentError(e.toString()));
+    }
+  }
 }

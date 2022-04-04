@@ -5,6 +5,7 @@ import 'package:document_review/app/features/DocumentReview/presentation/cubit/d
 import 'package:document_review/app/features/DocumentReview/presentation/pages/home.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/pages/view_pdf.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/widgets/comment_widget.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,6 +24,7 @@ enum Review { passed, ammend }
 
 class _ReviewScreenState extends State<ReviewScreen> {
   final TextEditingController commentController = TextEditingController();
+  String documentName = '';
   Review _review = Review.passed;
   double _value = 0.0;
 
@@ -62,6 +64,19 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 backgroundColor: Colors.green,
               ),
             );
+          } else if (state is DocumentUploaded) {
+            final documentUrl = state.url;
+            BlocProvider.of<DocumentreviewCubit>(context).uploadNewDocument(
+                document: documentUrl, id: widget.document.id.toString());
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Document uploaded successfully.'),
+                backgroundColor: Colors.green,
+              ),
+            );
+          } else if (state is DocumentInitial) {
+            Navigator.pop(context);
+            BlocProvider.of<DocumentreviewCubit>(context).getDocuments();
           }
         },
         builder: (context, state) {
@@ -271,6 +286,25 @@ class _ReviewScreenState extends State<ReviewScreen> {
             userName: widget.document.username!,
             comment: widget.document.review!,
           ),
+          widget.document.status == 'ammend'
+              ? Align(
+                  alignment: Alignment.bottomRight,
+                  child: TextButton(
+                    onPressed: () async {
+                      final file = await uploadDocument();
+                      BlocProvider.of<DocumentreviewCubit>(context)
+                          .storeDocument(file!, documentName);
+                    },
+                    child: Text(
+                      "Upload new document",
+                      style: TextStyle(
+                        color: Colors.blueGrey.shade800,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
@@ -284,5 +318,21 @@ class _ReviewScreenState extends State<ReviewScreen> {
     path = '${dir.path}/${widget.document.title}';
 
     return path;
+  }
+
+  Future<File?> uploadDocument() async {
+    //Use the file picker to upload a document.
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+    if (result != null) {
+      setState(() {
+        documentName = result.files.single.name;
+      });
+      return File(result.files.single.path!);
+    } else {
+      return null;
+    }
   }
 }
