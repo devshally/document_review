@@ -1,6 +1,7 @@
 import 'package:document_review/app/features/DocumentReview/domain/entities/document.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/cubit/documentreview_cubit.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/pages/home.dart';
+import 'package:document_review/app/features/DocumentReview/presentation/pages/view_pdf.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,11 +67,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
       child: Container(
         height: 250,
         width: 200,
-        color: Colors.blueGrey.shade100,
-        child: Icon(
-          Icons.photo_size_select_actual_outlined,
-          size: 100,
-          color: Colors.blueGrey.shade200,
+        decoration: BoxDecoration(
+          color: Colors.blueGrey.shade100,
+          image: const DecorationImage(
+            image: AssetImage('assets/images/pdf.png'),
+          ),
         ),
       ),
     );
@@ -83,19 +84,28 @@ class _ReviewScreenState extends State<ReviewScreen> {
         const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text(
+          children: [
+            const Text(
               'Download',
               style: TextStyle(
                 fontSize: 16,
-                // fontWeight: FontWeight.w500,
               ),
             ),
-            Text(
-              'View',
-              style: TextStyle(
-                fontSize: 16,
-                // fontWeight: FontWeight.w500,
+            GestureDetector(
+              onTap: (() => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ViewPdf(
+                        url: widget.document.document!,
+                        title: widget.document.title!,
+                      ),
+                    ),
+                  )),
+              child: const Text(
+                'View',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
           ],

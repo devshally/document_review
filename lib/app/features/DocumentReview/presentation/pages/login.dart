@@ -43,7 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             );
-            print(state.userEmail);
           } else if (state is DocumentError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
