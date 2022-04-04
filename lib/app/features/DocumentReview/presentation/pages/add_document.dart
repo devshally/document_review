@@ -72,6 +72,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
               ),
             );
             Navigator.pop(context);
+            BlocProvider.of<DocumentreviewCubit>(context).getDocuments();
           }
         }),
         builder: (context, state) {
