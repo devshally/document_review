@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:document_review/app/features/DocumentReview/presentation/cubit/documentreview_cubit.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/pages/home.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddDocumentScreen extends StatefulWidget {
   final Userm user;
@@ -50,7 +52,37 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
           'ADD DOCUMENT',
         ),
       ),
-      body: Container(),
+      body: BlocConsumer<DocumentreviewCubit, DocumentreviewState>(
+        listener: ((context, state) {
+          if (state is DocumentUploaded) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Document stored successfully'),
+                duration: Duration(seconds: 1),
+              ),
+            );
+            setState(() {
+              downloadUrl = state.url;
+            });
+          } else if (state is DocumentSuccessful) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Document uploaded successfully'),
+                duration: Duration(seconds: 1),
+              ),
+            );
+            Navigator.pop(context);
+          }
+        }),
+        builder: (context, state) {
+          if (state is DocumentLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return _buildBody();
+        },
+      ),
     );
   }
 
@@ -73,6 +105,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
             TextFormField(
               controller: descriptionController,
               decoration: InputDecoration(
@@ -152,21 +185,9 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),
                     onPressed: () async {
-                      // await uploadDocument().then(
-                      //   (value) async {
-                      //     downloadUrl = await documentService
-                      //         .addDocument(value!, documentName!)
-                      //         .whenComplete(
-                      //           () =>
-                      //               ScaffoldMessenger.of(context).showSnackBar(
-                      //             const SnackBar(
-                      //               content:
-                      //                   Text('Document uploaded successfully'),
-                      //             ),
-                      //           ),
-                      //         );
-                      //   },
-                      // );
+                      final file = await uploadDocument();
+                      BlocProvider.of<DocumentreviewCubit>(context)
+                          .storeDocument(file!, documentName!);
                     },
                     child: const Text('Browse'),
                   ),
@@ -179,14 +200,14 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                 radius: 30,
                 child: IconButton(
                   onPressed: () {
-                    // Upload document to backend.
-                    // documentService.uploadDocument(
-                    //   username: widget.userm.toString(),
-                    //   title: titleController.text,
-                    //   description: descriptionController.text,
-                    //   category: category,
-                    //   document: downloadUrl!,
-                    // );
+                    BlocProvider.of<DocumentreviewCubit>(context)
+                        .uploadDocument(
+                      username: widget.user.name,
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      category: category,
+                      document: downloadUrl!,
+                    );
                   },
                   icon: const Icon(
                     Icons.upload,
