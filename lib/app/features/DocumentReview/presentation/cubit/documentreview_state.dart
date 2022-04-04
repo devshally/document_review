@@ -30,6 +30,12 @@ class DocumentUploaded extends DocumentreviewState {
 
 class DocumentSuccessful extends DocumentreviewState {}
 
+class DocumentDownloaded extends DocumentreviewState {
+  final String savedUrl;
+
+  const DocumentDownloaded(this.savedUrl);
+}
+
 class DocumentError extends DocumentreviewState {
   final String message;
 

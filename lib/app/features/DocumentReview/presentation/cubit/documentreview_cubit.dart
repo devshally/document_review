@@ -115,4 +115,17 @@ class DocumentreviewCubit extends Cubit<DocumentreviewState> {
       emit(DocumentError(e.toString()));
     }
   }
+
+  void downloadDocument(String url, String savePath) async {
+    emit(DocumentLoading());
+    try {
+      await _dio.download(url, savePath).whenComplete(
+            () => emit(
+              DocumentDownloaded(savePath),
+            ),
+          );
+    } on DioError catch (e) {
+      emit(DocumentError(e.message.toString()));
+    }
+  }
 }

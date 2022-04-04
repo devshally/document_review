@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:document_review/app/features/DocumentReview/domain/entities/document.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/cubit/documentreview_cubit.dart';
 import 'package:document_review/app/features/DocumentReview/presentation/pages/home.dart';
@@ -5,6 +7,7 @@ import 'package:document_review/app/features/DocumentReview/presentation/pages/v
 import 'package:document_review/app/features/DocumentReview/presentation/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ReviewScreen extends StatefulWidget {
   final Document document;
@@ -29,6 +32,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey.shade700,
         title: Text(widget.document.title!),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+              BlocProvider.of<DocumentreviewCubit>(context).getDocuments();
+            },
+            icon: const Icon(Icons.arrow_back_ios)),
       ),
       body: BlocConsumer<DocumentreviewCubit, DocumentreviewState>(
         listener: (context, state) {
@@ -43,6 +52,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Document graded successfully'),
+                backgroundColor: Colors.green,
+              ),
+            );
+          } else if (state is DocumentDownloaded) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Document downloaded successfully to files.'),
                 backgroundColor: Colors.green,
               ),
             );
@@ -85,10 +101,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Download',
-              style: TextStyle(
-                fontSize: 16,
+            GestureDetector(
+              onTap: () {
+                getFilePath().then((value) =>
+                    BlocProvider.of<DocumentreviewCubit>(context)
+                        .downloadDocument(widget.document.document!, value));
+              },
+              child: const Text(
+                'Download',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
             GestureDetector(
@@ -251,5 +274,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
         ],
       ),
     );
+  }
+
+  Future<String> getFilePath() async {
+    String path = "";
+
+    Directory dir = await getApplicationDocumentsDirectory();
+
+    path = '${dir.path}/${widget.document.title}';
+
+    return path;
   }
 }
