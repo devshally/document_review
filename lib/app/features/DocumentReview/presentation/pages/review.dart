@@ -18,6 +18,7 @@ class ReviewScreen extends StatefulWidget {
 enum Review { passed, ammend }
 
 class _ReviewScreenState extends State<ReviewScreen> {
+  final TextEditingController commentController = TextEditingController();
   Review _review = Review.passed;
   double _value = 0.0;
 
@@ -26,7 +27,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey.shade700,
-        title: const Text('TITLE'),
+        title: Text(widget.document.title!),
       ),
       body: BlocConsumer<DocumentreviewCubit, DocumentreviewState>(
         listener: (context, state) {
@@ -35,6 +36,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
               SnackBar(
                 content: Text(state.message),
                 backgroundColor: Colors.red,
+              ),
+            );
+          } else if (state is DocumentSuccessful) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Document graded successfully'),
+                backgroundColor: Colors.green,
               ),
             );
           }
@@ -149,6 +157,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: TextFormField(
+            controller: commentController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Add comment',
@@ -158,7 +167,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
           ),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            BlocProvider.of<DocumentreviewCubit>(context).putReviewAndRating(
+              id: widget.document.id.toString(),
+              review: commentController.text,
+              rating: _value.toString(),
+              status: _review.name,
+            );
+          },
           child: const Text('Submit'),
         ),
       ],

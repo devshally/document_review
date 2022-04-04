@@ -33,6 +33,12 @@ Userm returnUser(String userEmail) {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    BlocProvider.of<DocumentreviewCubit>(context).getDocuments();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     BlocProvider.of<DocumentreviewCubit>(context).getDocuments();
     return Scaffold(

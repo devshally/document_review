@@ -88,10 +88,8 @@ class DocumentreviewCubit extends Cubit<DocumentreviewState> {
       List<Document> documentsList = documents.data["documents"]
           .map<Document>((document) => Document.fromJson(document))
           .toList();
-      // print(documents.data["documents"]);
       emit(DocumentRetrieved(documentsList));
     } on DioError catch (e) {
-      print(e);
       emit(DocumentError(e.toString()));
     }
   }
@@ -100,13 +98,16 @@ class DocumentreviewCubit extends Cubit<DocumentreviewState> {
     required String id,
     required String review,
     required String rating,
+    required String status,
   }) async {
+    emit(DocumentLoading());
     try {
       await _dio.put(
         'https://budgetmental-austriagenesis-8080.codio-box.uk/api/v2/documents/$id',
         queryParameters: {
           "review": review,
           "rating": rating,
+          "status": status,
         },
       );
       emit(DocumentSuccessful());

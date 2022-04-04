@@ -39,10 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) => HomeScreen(
-                  userEmail: usernameController.text,
+                  userEmail: state.userEmail,
                 ),
               ),
             );
+            print(state.userEmail);
           } else if (state is DocumentError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
